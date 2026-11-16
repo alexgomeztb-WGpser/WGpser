@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="session.css">
+</head>
+<body>
+
+    <div class="contenedor">
+        <form class="formulario">
+            <h2>Registro de Usuario</h2>
+
+            <div class="campo">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="campo">
+                <label for="password">Crear contraseña</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="campo">
+                <label for="fechaNacimiento">Fecha de nacimiento</label>
+                <input
+                    type="date"
+                    id="fechaNacimiento"
+                    name="fechaNacimiento"
+                    required
+                >
+                <small>Edad permitida: entre 5 y 50 años.</small>
+            </div>
+
+            <div class="campo">
+                <label for="documento">
+                    Tarjeta de identidad o cédula de ciudadanía
+                </label>
+                <input
+                    type="text"
+                    id="documento"
+                    name="documento"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="fotoDocumento">
+                    Subir foto del documento de identidad
+                </label>
+                <input
+                    type="file"
+                    id="fotoDocumento"
+                    accept="image/*"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="fotoEps">
+                    Subir foto del certificado de EPS
+                </label>
+                <input
+                    type="file"
+                    id="fotoEps"
+                    accept="image/*"
+                    required
+                >
+            </div>
+
+            <div id="adultoResponsable" style="display:none;">
+
+                <div class="campo">
+                    <label for="nombreAdulto">
+                        Nombre del adulto responsable
+                    </label>
+                    <input
+                        type="text"
+                        id="nombreAdulto"
+                        name="nombreAdulto"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="fotoAdulto">
+                        Foto del documento del adulto responsable
+                    </label>
+                    <input
+                        type="file"
+                        id="fotoAdulto"
+                        accept="image/*"
+                    >
+                </div>
+
+            </div>
+
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
+
+    <script>
+        const fechaNacimiento = document.getElementById("fechaNacimiento");
+        const adultoResponsable = document.getElementById("adultoResponsable");
+
+        fechaNacimiento.addEventListener("change", function() {
+            const fechaNac = new Date(this.value);
+            const hoy = new Date();
+
+            let edad = hoy.getFullYear() - fechaNac.getFullYear();
+
+            const mes = hoy.getMonth() - fechaNac.getMonth();
+
+            if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+                edad--;
+            }
+
+            if (edad < 5 || edad > 50) {
+                alert("La edad debe estar entre 5 y 50 años.");
+                this.value = "";
+                adultoResponsable.style.display = "none";
+                return;
+            }
+
+            if (edad < 18) {
+                adultoResponsable.style.display = "block";
+            } else {
+                adultoResponsable.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+</html>
